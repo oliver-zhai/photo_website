@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OLIVER.Z Photography</title>
+    <style>
+        :root {
+            --primary-color: #5B8DEF;
+            --accent-color: #4A7DE8;
+            --light-bg: #f8fafc;
+            --medium-gray: #e8edf5;
+            --dark-text: #2d3748;
+            --light-text: #718096;
+            --white: #ffffff;
+            --shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+            --card-radius: 14px;
+            --avatar-size: 180px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header & Navigation */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            height: 70px;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--primary-color);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            padding: 0 15px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-text);
+            font-weight: 500;
+            position: relative;
+            transition: var(--transition);
+            padding: 25px 0;
+            display: block;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .dropdown {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 70px;
+            left: 0;
+            background-color: white;
+            box-shadow: var(--shadow);
+            border-radius: 4px;
+            min-width: 150px;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.2s ease;
+        }
+        
+        .dropdown-content li {
+            padding: 0;
+        }
+        
+        .dropdown-content a {
+            display: block;
+            padding: 15px 20px;
+            border-radius: 4px;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: rgba(91, 142, 239, 0.1);
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+        
+        .hamburger .line {
+            display: block;
+            width: 25px;
+            height: 2px;
+            margin: 5px auto;
+            background-color: var(--dark-text);
+            transition: all 0.3s ease;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 60px 0 30px;
+            text-align: center;
+            background-color: white;
+        }
+        
+        .avatar-container {
+            margin: 0 auto 30px;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background-color: var(--light-bg);
+            padding: 8px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-image: url('bin/profile.jpg');
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            border: 2px solid white;
+        }
+        
+        .name {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 15px;
+            color: var(--dark-text);
+            letter-spacing: 3px;
+        }
+        
+        .tagline {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            max-width: 800px;
+            margin: 0 auto 30px;
+            font-weight: 300;
+        }
+        
+        /* gallery section */
+        .gallery-section {
+            padding: 110px 0;
+            background: var(--white);
+            position: relative;
+        }
+        
+        .gallery-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, transparent 0%, var(--primary-color) 50%, transparent 100%);
+            opacity: 0.7;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 70px;
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--dark-text);
+            position: relative;
+            padding-top: 10px;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: var(--primary-color);
+            margin: 18px auto;
+            border-radius: 3px;
+            opacity: 0.8;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3列 */
+            grid-template-rows: auto auto;        /* 2行 */
+            gap: 30px;
+        }
+        
+        .square-card {
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            aspect-ratio: 1/1; /* 保持1:1宽高比 */
+        }
+        
+        .square-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .square-img-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .square-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            transition: var(--transition);
+        }
+        
+        .square-card:hover .square-img {
+            transform: scale(1.05);
+        }
+        
+        .square-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 22px 25px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+            color: white;
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .square-card:hover .square-info {
+            opacity: 1;
+        }
+        
+        .square-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .square-category {
+            display: inline-block;
+            padding: 6px 15px;
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            backdrop-filter: blur(5px);
+        }
+        
+        /* About Section */
+        .about-section {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            text-align: center;
+            line-height: 1.8;
+            color: var(--light-text);
+        }
+        
+        .highlight {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        /* Social Links */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0 20px;
+            gap: 25px;
+        }
+        
+        .social-link {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: var(--dark-text);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .social-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .social-icon {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-text);
+            color: #adb5bd;
+            text-align: center;
+            padding: 25px 0;
+            font-size: 0.9rem;
+        }
+        
+        .copyright {
+            letter-spacing: 1px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .name {
+                font-size: 2.5rem;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
+                padding: 0 15px;
+            }
+            
+            .about-content, .section-title {
+                padding: 0 15px;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .nav-links li {
+                padding: 5px 0;
+                text-align: center;
+            }
+            
+            .nav-links a {
+                padding: 15px 0;
+            }
+            
+            .dropdown-content {
+                position: static;
+                box-shadow: none;
+                display: none;
+                opacity: 1;
+                transform: none;
+                margin: 0 auto;
+            }
+            
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .hamburger.active .line:nth-child(1) {
+                transform: translateY(7px) rotate(45deg);
+            }
+            
+            .hamburger.active .line:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .hamburger.active .line:nth-child(3) {
+                transform: translateY(-7px) rotate(-45deg);
+            }
+            
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header>
+        <div class="navbar container">
+            <a href="#" class="logo">OLIVER.Z</a>
+            <ul class="nav-links">
+                <li><a href="#home">首页</a></li>
+                <li class="dropdown">
+                    <a>分类 <span>▼</span></a>
+                    <ul class="dropdown-content">
+                        <li><a href="#">人像</a></li>
+                        <li><a href="#">静物</a></li>
+                        <li><a href="#">手记</a></li>
+                    </ul>
+                </li>
+                <li><a href="#about">关于我</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="avatar-container">
+                <div class="avatar"></div>
+            </div>
+            <h1 class="name">OLIVER.Z</h1>
+            <p class="tagline">万物有灵且美</p>
+            <p class="tagline">website being under development...</p>
+        </div>
+    </section>
+    
+    <!-- Gallery Section -->
+    <section class="gallery-section" id="gallery">
+        <div class="container">
+            <h2 class="section-title"> GALLERY </h2>
+            
+            <div class="gallery-grid">
+                <div class="square-card">
+                    <div class="square-img-container">
+                        <img class="square-img" src="/bin/featured-1.jpg" alt="featured-1">
+                    </div>
+                    <div class="square-info">
+                        <h3 class="square-title">F-1</h3>
+                        <span class="square-category">人像</span>
+                    </div>
+                </div>
+                
+                <div class="square-card">
+                    <div class="square-img-container">
+                        <img class="square-img" src="/bin/featured-2.jpg" alt="featured-2">
+                    </div>
+                    <div class="square-info">
+                        <h3 class="square-title">F-2</h3>
+                        <span class="square-category">人像</span>
+                    </div>
+                </div>
+                
+                <div class="square-card">
+                    <div class="square-img-container">
+                        <img class="square-img" src="/bin/featured-3.jpg" alt="featured-3">
+                    </div>
+                    <div class="square-info">
+                        <h3 class="square-title">F-3</h3>
+                        <span class="square-category">人像</span>
+                    </div>
+                </div>
+                
+                <div class="square-card">
+                    <div class="square-img-container">
+                        <img class="square-img" src="/bin/featured-4.jpg" alt="featured-4">
+                    </div>
+                    <div class="square-info">
+                        <h3 class="square-title">F-4</h3>
+                        <span class="square-category">人像</span>
+                    </div>
+                </div>
+                
+                <div class="square-card">
+                    <div class="square-img-container">
+                        <img class="square-img" src="/bin/featured-5.jpg" alt="featured-5">
+                    </div>
+                    <div class="square-info">
+                        <h3 class="square-title">F-5</h3>
+                        <span class="square-category">人像</span>
+                    </div>
+                </div>
+                
+                <div class="square-card">
+                    <div class="square-img-container">
+                        <img class="square-img" src="/bin/featured-6.jpg" alt="featured-6">
+                    </div>
+                    <div class="square-info">
+                        <h3 class="square-title">F-6</h3>
+                        <span class="square-category">人像</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 50px; font-size: 1.1rem; color: var(--light-text);">
+                <p>portrait｜still life｜free style</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Section  -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <h2 class="section-title">关于我</h2>
+            <p class="about-content">
+                I'm<span class="highlight"> OLIVER.Z</span>，a freelance photographer based in Hong Kong at present. Virgo. Holding a Ph.D. degree.
+                <br><br>
+                I love the portrait of natural light, as I can feel your <span class="highlight">innocent and pure emotions</span> from those fascinating moments. I try to understand, record, and characterize your emotions in association with surroundings, as well as to freeze the passing youth for you.
+                <br><br>
+                As for me, photography is not only to present beautiful images and retouching techniques, but also to convey a thought and mood. I'm used to interpreting the world through my lens, craving for passion and beauty. It's also a reflection of a fragile and romantic side of me, in the belief that all things are bright and beautiful. And if you listen carefully, my silent but thoughtful pictures will tell a story.
+            </p>
+        </div>
+    </section>
+    
+    <!-- Social Links -->
+    <div class="container">
+        <div class="social-links">
+            <a href="#" class="social-link" aria-label="Instagram">
+                <div class="social-icon">IG</div>
+            </a>
+            <a href="#" class="social-link" aria-label="Twitter">
+                <div class="social-icon">TW</div>
+            </a>
+            <a href="#" class="social-link" aria-label="Facebook">
+                <div class="social-icon">FB</div>
+            </a>
+            <a href="#" class="social-link" aria-label="YouTube">
+                <div class="social-icon">YT</div>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p class="copyright">©️ 2026 OLIVER Z PHOTOGRAPHY. ALL RIGHTS RESERVED</p>
+        </div>
+    </footer>
+    
+    <script>
+        // 移动端导航菜单
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            
+            hamburger.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+                hamburger.classList.toggle('active');
+            });
+            
+            // 平滑滚动
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop,
+                            behavior: 'smooth'
+                        });
+                        
+                        // 如果是移动端，点击后关闭菜单
+                        if (window.innerWidth <= 768) {
+                            navLinks.classList.remove('active');
+                            hamburger.classList.remove('active');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
